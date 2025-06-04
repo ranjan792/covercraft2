@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CoverCraft</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #dfe9f3, #ffffff);
+      color: #333;
+    }
+    header {
+      background: linear-gradient(90deg, #004080, #0073e6);
+      color: white;
+      padding: 25px 20px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+    header h1 {
+      font-size: 32px;
+      margin: 0;
+    }
+    main {
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+    }
+    input, button, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      font-size: 16px;
+    }
+    button {
+      background-color: #0073e6;
+      color: white;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    button:hover {
+      background-color: #005bb5;
+    }
+    .product {
+      background: white;
+      border-left: 5px solid #0073e6;
+      padding: 15px;
+      margin-top: 15px;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .admin {
+      background: #fff;
+      padding: 20px;
+      margin-top: 30px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      box-shadow: 0 1px 6px rgba(0,0,0,0.1);
+    }
+    .hidden { display: none; }
+    footer {
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #777;
+      margin-top: 40px;
+    }
+    .badge {
+      display: inline-block;
+      background-color: #f39c12;
+      color: white;
+      padding: 2px 8px;
+      font-size: 12px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📱 CoverCraft</h1>
+    <p style="font-size: 16px;">Stylish mobile covers just for your phone model! 🔥</p>
+  </header>
+
+  <main>
+    <input type="text" id="searchModel" placeholder="🔍 Search by mobile model (e.g., Vivo Y20)">
+    <div id="results"></div>
+
+    <div class="admin">
+      <h3>🔐 Admin Login <span class="badge">Secure</span></h3>
+      <input type="password" id="adminPass" placeholder="Enter admin password">
+      <button onclick="loginAdmin()">Login</button>
+
+      <div id="adminPanel" class="hidden">
+        <h3>➕ Add New Cover</h3>
+        <input type="text" id="model" placeholder="Model (e.g., Samsung M12)">
+        <input type="text" id="designs" placeholder="Designs (e.g., Neon, Cartoon)">
+        <input type="text" id="price" placeholder="Price Range (e.g., ₹99 – ₹199)">
+        <select id="stock">
+          <option value="">Stock Available?</option>
+          <option value="In Stock">In Stock</option>
+          <option value="Limited">Limited</option>
+          <option value="Out of Stock">Out of Stock</option>
+        </select>
+        <button onclick="addCover()">Add Cover</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 CoverCraft. Stylish Covers for Every Model ✨
+  </footer>
+
+  <script>
+    const password = "tripathy12";
+    let covers = JSON.parse(localStorage.getItem("covers") || "[]");
+
+    function displayCovers(list) {
+      const resultDiv = document.getElementById("results");
+      resultDiv.innerHTML = "";
+      if (list.length === 0) {
+        resultDiv.innerHTML = "<p>No covers found. Try a different model.</p>";
